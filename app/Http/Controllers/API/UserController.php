@@ -156,6 +156,12 @@ class UserController extends BaseController
 
             return $this->sendResponse($success, 'User login success');
         }
+
+        $user = User::where('email', $storeData['email'])->first();
+        if ($user) {
+            return $this->sendError('Password Incorrect');
+        }
+
         return $this->sendError('Unauthorised');
     }
 }
