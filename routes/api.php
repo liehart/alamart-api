@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\ItemController;
-use App\Http\Controllers\API\TransaksiController;
+use App\Http\Controllers\API\BarangController;
 use App\Http\Controllers\API\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('item', ItemController::class);
+Route::resource('barang', BarangController::class);
 Route::resource('user', UserController::class);
-Route::resource('transaksi', TransaksiController::class);
 Route::get('verify/{token}', [UserController::class, 'verify']);
 Route::post('login', [UserController::class, 'login']);
