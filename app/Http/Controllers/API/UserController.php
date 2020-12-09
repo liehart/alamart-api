@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Mail\VerificationMail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -49,6 +51,13 @@ class UserController extends BaseController
         $storeData['activation_token'] = Str::random(30);
 
         $user = User::create($storeData);
+        try{
+            Mail::to($user->email)->send(
+                new VerificationMail($user->activation_token)
+            );
+        }catch(Exception $e){
+            return $this->sendError('Email tidak terkirim', $e);
+        };
 
         return $this->sendResponse($user, 'User registered');
     }
